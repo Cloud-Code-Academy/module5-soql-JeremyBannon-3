@@ -42,7 +42,7 @@ public with sharing class SOQL {
      * Update the corresponding test class and testGetContactsByFirstName method to cover this method
      */
     public static  List<Contact> getContactsByFirstName () {
-        List<Contact> contacts = [SELECT Id, FirstName, LastName FROM Contact WHERE FirstName = 'John'];
+        List<Contact> contacts = [SELECT Id, Name, FirstName, LastName FROM Contact WHERE FirstName = 'John'];
         return contacts;
     //  The body of the method
     }
@@ -54,9 +54,13 @@ public with sharing class SOQL {
      * @return A list of Contact Ids.
      * Update the corresponding test class and testGetContactIdsByLastName method to cover this method
      */
-    public static List<Contact> getContactsByLastName () {
+    public static List<Id> getContactIdsByLastName () {
         List<Contact> contacts = [SELECT Id FROM Contact WHERE LastName = 'Smith' OR LastName = 'Jones'];
-        return contacts;
+        List<Id> contactIds = new List<Id>();
+        for(Contact con : contacts ){
+            contactIds.add(con.Id);
+        }
+        return contactIds;
     //  The body of the method
     }
 
