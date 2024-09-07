@@ -84,10 +84,11 @@ public with sharing class SOQL {
      * @return The Integer count of Account records.
      * Update the corresponding test class and testGetAccountCount method to cover this method
      */
-    //public static List<Integer> getAccountCount () {
+    public static Integer getAccountCount() {
     //  The body of the method
-        
-    //}
+        Integer numberOfAccounts = [SELECT COUNT() FROM Account];
+        return numberOfAccounts;   
+    }
 
     /**
      * Question 6
