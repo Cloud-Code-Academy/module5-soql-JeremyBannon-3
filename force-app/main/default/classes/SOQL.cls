@@ -127,18 +127,22 @@ public with sharing class SOQL {
      * @param keyword The keyword to search for in the Opportunity Name.
      * @return A list of Opportunity records.
      */
-    //public static List<Opportunity> getOpportunitiesByNameKeyword(String keyword) {
-      //  return null; // Replace null with the variable you used to store the result
-    //}
+    public static List<Opportunity> getOpportunitiesByNameKeyword(String keyword) {
+        List<Opportunity> opp =[SELECT Id, Name FROM Opportunity WHERE Name IN (:keyword)];    
+    
+        return opp; // Replace null with the variable you used to store the result
+    }
 
     /**
      * Question 9
      * Retrieves all Cases that Case Origin is not Web or Email or Blank
      * @return A list of Case records.
      */
-    //public static List<Case> getFilterCaseOrigins() {
-       // return null; // Replace null with the variable you used to store the result
-    //}
+    public static List<Case> getFilterCaseOrigins() {
+        List<Case> cList = [SELECT Id, Subject, Origin FROM Case WHERE Origin != 'Web' OR Origin != 'Email' OR Origin != null];
+
+        return cList; // Replace null with the variable you used to store the result
+    }
 
     /**
      * Question 10
