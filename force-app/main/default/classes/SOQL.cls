@@ -139,7 +139,7 @@ public with sharing class SOQL {
      * @return A list of Case records.
      */
     public static List<Case> getFilterCaseOrigins() {
-        List<Case> cList = [SELECT Id, Subject, Origin FROM Case WHERE Origin != 'Web' OR Origin != 'Email' OR Origin != null];
+        List<Case> cList = [SELECT Id, Subject, Origin FROM Case WHERE Origin != 'Web' OR Origin != 'Email' OR Origin != ''];
 
         return cList; // Replace null with the variable you used to store the result
     }
@@ -154,9 +154,11 @@ public with sharing class SOQL {
      * @return A list of Lead records.
      * Update the corresponding test class and testGetLeadsBySourceOrTitle method to cover this method
      */
-    //[public | private ] [static] data_type method_name (input parameters) {
-    //  The body of the method
-    //}    
+    public static List<Lead> getLeadsBySourceOrTitle() {
+        List<Lead> leads = [SELECT Id, Company, Phone, Email, LastName, Title, LeadSource FROM Lead WHERE LeadSource = 'Web' OR Title LIKE '%Engineer%'];
+
+        return leads; 
+    }    
 
     /**
      * Question 11
