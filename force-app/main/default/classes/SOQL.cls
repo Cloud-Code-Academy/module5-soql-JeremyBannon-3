@@ -171,18 +171,21 @@ public with sharing class SOQL {
      * @param accountId The ID of the Account.
      * @return A list of Contact LastName.
      */
-    //public static List<String> getContactNamesByAccount(Id accountId) {
-        // Create a list to hold the Contact LastNames
+    public static List<String> getContactNamesByAccount(Id accountId) {
 
+        // Create a list to hold the Contact LastNames
+    List<String> lastNameList = new List<String>();
         // Query the Contacts
+    List<Contact> con = [SELECT Id, FirstName, LastName, AccountId FROM Contact WHERE AccountId = :accountId];
         // Loop through each Contact and add the LastName to the list
-        //for () {
-        //    
-        //}
+    for (Contact c : con) {  
+        lastNameList.add(c.LastName);
+    }
 
         // Return the list of Contact LastNames
-        //return null; // Replace null with the variable you used to store the result
-    //}
+    return lastNameList; // Replace null with the variable you used to store the result
+}
+
 
     /**
      * Question 12
