@@ -209,6 +209,7 @@ public with sharing class SOQL {
      */
     public static List<Account> getFirstTenAccounts() {
         Account[] accounts = [SELECT Id, Name FROM Account ORDER BY Name LIMIT 10];
+
         return accounts; // Replace null with the variable you used to store the result
     }
     
@@ -219,6 +220,7 @@ public with sharing class SOQL {
      */
     public static List<Opportunity> getHighValueOpportunities() {
         Opportunity[] opps = [SELECT Id, Name, Amount, CloseDate FROM Opportunity WHERE Amount > 100000 ORDER BY CloseDate Limit 5];
+
         return opps; // Replace null with the variable you used to store the result
     }
     
@@ -227,18 +229,22 @@ public with sharing class SOQL {
      * Retrieves the Contacts with the most recent Birthdate, ordered by Birthdate, and limited to 3 records.
      * @return A list of Contacts
      */
-   // public static List<Contact> getBirthdateContacts() {
-        //return null; // Replace null with the variable you used to store the result
-    //}
+    public static List<Contact> getBirthdateContacts() {
+        Contact[] contactBirthday = [SELECT Id, Name, Birthdate FROM Contact ORDER BY Birthdate LIMIT 3];
+
+        return contactBirthday; // Replace null with the variable you used to store the result
+    }
     
     /**
      * Question 16
      * Retrieves the Cases in the Open Status, ordered by CreatedDate, and limited to 10 records with an offset of 5.
      * @return A list of Cases
      */
-    //public static List<Case> getCasesWithStatus() {
-       // return null; // Replace null with the variable you used to store the result
-    //}
+    public static List<Case> getCasesWithStatus() {
+        Case[] cases = [SELECT Id, Status, Subject, CreatedDate FROM Case WHERE Status = 'Open' ORDER BY CreatedDate LIMIT 10 OFFSET 5];
+
+       return cases; // Replace null with the variable you used to store the result
+    }
 
     /**
      * Question 17
