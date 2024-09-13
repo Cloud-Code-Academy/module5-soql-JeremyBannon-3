@@ -230,7 +230,7 @@ public with sharing class SOQL {
      * @return A list of Contacts
      */
     public static List<Contact> getBirthdateContacts() {
-        Contact[] contactBirthday = [SELECT Id, Name, Birthdate FROM Contact ORDER BY Birthdate LIMIT 3];
+        Contact[] contactBirthday = [SELECT Id, Name, Birthdate FROM Contact ORDER BY Birthdate DESC NULLS LAST LIMIT 3];
 
         return contactBirthday; // Replace null with the variable you used to store the result
     }
