@@ -194,12 +194,13 @@ public with sharing class SOQL {
      * @param stage The Stage value to filter Opportunities.
      * @return The total revenue.
      */
-   // public static Decimal getTotalRevenueByStage(String stage) {
-        // Use AggregateQuery to get the total revenue
-
-        // Return the total revenue
-       // return null; // Replace null with the variable you used to store the result
-    //}
+    public static Decimal getTotalRevenueByStage(String stage) {
+        AggregateResult[] totalRevenue = [SELECT SUM(Amount) totalAmount FROM Opportunity WHERE StageName = :stage OR Amount > 10000];
+           // Use AggregateQuery to get the total revenue
+        Decimal revenue = (Decimal)totalRevenue[0].get('totalAmount');
+           // Return the total revenue
+        return revenue; // Replace null with the variable you used to store the result
+}
 
     /**
      * Question 13
