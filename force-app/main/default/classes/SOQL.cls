@@ -217,9 +217,10 @@ public with sharing class SOQL {
      * Retrieves the Opportunities with an Amount greater than 100,000, ordered by CloseDate, and limited to 5 records.
      * @return A list of Opportunities with an Amount greater than 100,000, ordered by CloseDate, and limited to 5 records.
      */
-   // public static List<Opportunity> getHighValueOpportunities() {
-       // return null; // Replace null with the variable you used to store the result
-   // }
+    public static List<Opportunity> getHighValueOpportunities() {
+        Opportunity[] opps = [SELECT Id, Name, Amount, CloseDate FROM Opportunity WHERE Amount > 100000 ORDER BY CloseDate Limit 5];
+        return opps; // Replace null with the variable you used to store the result
+    }
     
     /**
      * Question 15
