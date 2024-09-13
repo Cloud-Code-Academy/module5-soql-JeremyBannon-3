@@ -207,9 +207,10 @@ public with sharing class SOQL {
      * Retrieves the first 10 Accounts ordered by Name.
      * @return A list of the first 10 Accounts ordered by Name.
      */
-    //public static List<Account> getFirstTenAccounts() {
-       // return null; // Replace null with the variable you used to store the result
-    //}
+    public static List<Account> getFirstTenAccounts() {
+        Account[] accounts = [SELECT Id, Name FROM Account ORDER BY Name LIMIT 10];
+        return accounts; // Replace null with the variable you used to store the result
+    }
     
     /**
      * Question 14
