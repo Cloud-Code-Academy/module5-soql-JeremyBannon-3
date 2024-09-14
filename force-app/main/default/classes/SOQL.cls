@@ -274,15 +274,18 @@ public with sharing class SOQL {
      * @param country The country to filter Accounts.
      * @return A map of Account Ids to Account Names.
      */
-    //public static Map<Id, String> getAccountIdsToNamesNotInCountry(String country) {
+    public static Map<Id, String> getAccountIdsToNamesNotInCountry(String country) {
         // Create a map to hold the Account Ids to Account Names
-       // Map<Id, String> accountIdsToNames = new Map<Id, String>();
+    Map<Id, String> accountIdsToNames = new Map<Id, String>();
 
         // Query the Accounts
+    Account[] accounts = [SELECT Id, Name, BillingCountry FROM Account WHERE BillingCountry != :country];
         // Loop through each Account and add the Id and Name to the map
-
-       // return null; // Replace null with the variable you used to store the result
-    //}
+    for(account a : accounts){
+        accountIdsToNames.put(a.Id, a.Name);
+    }
+      return accountIdsToNames; // Replace null with the variable you used to store the result
+}
 
     /**
      * Question 19
