@@ -311,9 +311,17 @@ public with sharing class SOQL {
      * @param accountId The ID of the Account.
      * @return An Account record with related Opportunities.
      */
-    //public static Account getAccountAndOpportunitiesFromAccountId(Id accountId) {
-        //return null; // Replace null with the variable you used to store the result
-    //}
+    public static Account getAccountAndOpportunitiesFromAccountId(Id accountId) {
+        Account[] accounts = [SELECT Id, Name,(SELECT Id, Name FROM Opportunities) FROM Account WHERE Id = :accountId];
+
+        if(accounts !=null){
+
+        return accounts[0];
+        }
+
+
+        return null; // Replace null with the variable you used to store the result
+    }
 
     /**
      * Question 21
