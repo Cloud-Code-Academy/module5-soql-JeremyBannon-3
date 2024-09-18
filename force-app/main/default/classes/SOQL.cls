@@ -352,24 +352,46 @@ public with sharing class SOQL {
      * @param A set of Lead Ids.
      * @return A list of Accounts with matching email domains.
      */
-    //public static List<Account> findAccountsByLeadEmailDomains(Set<Id> leadIds) {
+    public static List<Account> findAccountsByLeadEmailDomains(Set<Id> leadIds) {
         // Query the Leads
-
-        // Create a set of email domains from the Leads
-
-        // Loop through each Lead
-
-            // Get the email from the Lead
-
-            // Check if the email is not null
-
-                // Add the email domain to the set
-
+        Lead[] leads = [SELECT Id, Email FROM Lead WHERE Id IN :leadIds];
         
-        // Query the Accounts
-        //return null; // Replace null with the variable you used to store the result
-   // }
-
+        // Create a set of email domains from the Leads
+        Set<String> domains = new Set<String>();
+        
+        // Loop through each Lead
+        for (Lead l : leads) {
+            // Check if the email is not null and contains an '@'
+            if (l.Email != null && l.Email.contains('@')) {
+                String[] split = l.Email.split('@');
+                if (split.size() > 1) {
+                    // Add the email domain to the set, converted to lowercase
+                    domains.add(split[1].toLowerCase());
+                }
+            }
+        }
+        
+        // Query the Accounts (without trying to manipulate the website in SOQL)
+        List<Account> allAccounts = [SELECT Id, Website FROM Account];
+        List<Account> matchedAccounts = new List<Account>();
+        
+        // Normalize the website domain by stripping 'www.' and making it lowercase, then match with domains
+        for (Account acc : allAccounts) {
+            if (acc.Website != null) {
+                // Strip 'www.' if present and convert to lowercase
+                String normalizedWebsite = acc.Website.replace('www.', '').toLowerCase();
+                if (domains.contains(normalizedWebsite)) {
+                    matchedAccounts.add(acc);
+                }
+            }
+        }
+        
+        // Return the list of matched Accounts
+        return matchedAccounts;
+    }
+    
+    
+    
     /**
      * Question 23
      * Clones and Inserts Opportunity Line Items from an original Opportunity to a list of cloned Opportunities.
