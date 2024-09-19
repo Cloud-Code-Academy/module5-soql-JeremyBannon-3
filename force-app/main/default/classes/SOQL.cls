@@ -414,7 +414,7 @@ public with sharing class SOQL {
             // Loop through each original line item
             for(OpportunityLineItem oli : olis){
             OpportunityLineItem newOli = oli.clone(false, false, false, false);
-               Integer randomAddition = Integer.valueOf(Math.round(Math.random() * 2)) + 1; 
+            Integer randomAddition = Integer.valueOf(Math.round(Math.random() * 2)) + 1; 
             newOli.Quantity = oli.Quantity + randomAddition;
             newOli.OpportunityId = cloneOppId;
             oliNew.add(newOli);
@@ -442,19 +442,28 @@ public with sharing class SOQL {
      * Sets the 'Primary_Contact__c' field for all Closed Won Opportunities to first Contact on the Account.
      * Example: setPrimaryContact() should set the 'Primary_Contact__c' field for every Opportunity in the org
      */
-   // public static void setPrimaryContact() {
+    public static void setPrimaryContact() {
         //Use the getOpportunityDetailsForClosedWon() method to get the Opportunities
-
+    List<Opportunity> opps = SOQL.getOpportunityDetailsForClosedWon();
         // Create a set of Account Ids from the Opportunities
-
+    Set<Id> accIds = new Set<Id>();
+    for(Opportunity o : opps) {
+            accIds.add(o.AccountId);
+    }
         // Query the Contacts
-
+    List<Contact> contacts = [SELECT Id, AccountId FROM Contact WHERE AccountId IN :accIds];
+        // Create a map of Account Ids to Contacts
+    Map<Id, Contact> accountToContactMap = new Map<Id, Contact>();
         // Loop through each Contact and add the Account Id and Contact to the map
-        
+    for(Contact c : contacts) {
+            accountToContactMap.put(c.AccountId, c);
         // Loop through each Opportunity
-
+    
+        for(Opportunity o : opps) {
                 // Update the Opportunity primary contact from accountToContactMap
-
-        // Update the Opportunities
-    //}
+            o.Primary_Contact__c = accountToContactMap.get(o.AccountId).Id;
+    }
+}
+    Update opps;
+}
 }
