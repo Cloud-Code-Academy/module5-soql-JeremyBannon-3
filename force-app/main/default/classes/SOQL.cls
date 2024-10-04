@@ -275,18 +275,16 @@ public with sharing class SOQL {
      * @return A map of Account Ids to Account Names.
      */
     public static Map<Id, String> getAccountIdsToNamesNotInCountry(String country) {
-        // Create a map to hold the Account Ids to Account Names
-    Map<Id, String> accountIdsToNames = new Map<Id, String>();
+        Map<Id, String> accountIdsToNames = new Map<Id, String>();
 
-        // Query the Accounts
-    Account[] accounts = [SELECT Id, Name, BillingCountry FROM Account WHERE BillingCountry != :country];
-        // Loop through each Account and add the Id and Name to the map
-    for(account a : accounts){
-        accountIdsToNames.put(a.Id, a.Name);
-    }
-      return accountIdsToNames; // Replace null with the variable you used to store the result
+        Account[] accounts = [SELECT Id, Name, BillingCountry FROM Account WHERE BillingCountry != 'Canada'];
+        System.debug('accounts: ' + accounts);
+
+        for(Account a : accounts){
+            accountIdsToNames.put(a.Id, a.Name);
+        }
+        return accountIdsToNames;
 }
-
     /**
      * Question 19
      * Retrieves the Account Name for a given Contact.
@@ -331,19 +329,16 @@ public with sharing class SOQL {
      * @return List of contacts with the same Mailing State as the Account Billing State
      */
     public static List<Contact> getAccountsWithContactsByState(Id accountId) {
-        // Query the Account
-        Account[] accounts = [SELECT Id, Name, BillingState FROM Account WHERE Id = :accountId];
-        // Store the Account's BillingState
-        String accountBillingState = null;
-        if(accounts != null){
-            accountBillingState = accounts[0].BillingState;
-        }
-        // Query the Contacts
-        List<Contact> contacts = [SELECT Id, Name, MailingState FROM Contact WHERE MailingState = :accountBillingState];
-
-       return contacts; // Replace null with the variable you used to store the result
+        
+        Account[] accounts = [SELECT Id, Name, BillingState FROM Account WHERE Id = :accountId ];
+        
+        String billingState = accounts[0].BillingState;
+        
+        Contact[] contacts = [SELECT Id, Name, MailingState FROM Contact WHERE MailingState = :billingState];
+    
+        return contacts;
+        
     }
-
     /**
      * Question 22
      * Extracts email domains from them leads, then finds Accounts with matching website domains
